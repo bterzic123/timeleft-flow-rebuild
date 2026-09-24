@@ -444,6 +444,7 @@ a{color:inherit}
     <h2>We walked your onboarding the way a new user does, then rebuilt the parts we think are leaving money on the table.</h2>
     <p class="body">Adapty powers subscriptions for <b>30,000+ apps</b>, so we see what moves conversion and ARPU across the market, not just inside one app. We pointed that at Timeleft. We installed it, went through the whole flow up to the paywall and its 20%-off sheet, read your App Store listing, and looked for gaps between what you already have and what you show people.</p>
     <p class="body">What follows is five ideas, not fifteen. Each one is a hypothesis you can A/B test, and each one is built into a clickable prototype so you can see it rather than imagine it. <b>The prototype uses your design, not ours.</b></p>
+    <p class="body">It shows 11 of your roughly 25 screens: only the ones where we believe we can move conversion or ARPU. <b>Every other question stays in your flow, unchanged and in your order.</b></p>
     <div class="notes">
       <div class="note">
         <h4>We did not redesign your app</h4>
@@ -983,13 +984,13 @@ document.querySelectorAll('[data-auth]').forEach(function(b){ b.addEventListener
 /* ---- the short panel: hypothesis + potential outcome, nothing else ---- */
 var PANEL = {
 goals:{ctx:true,t:'What are you looking for?',
- kept:'Your screen, unchanged. Same six options, same emoji, "Select up to 2", your header and progress bar. The answer now shows up again on the loader.'},
+ kept:'Your screen, unchanged. Same six options, same emoji, "Select up to 2", your header and progress bar. The answer now shows up again on the loader. We only show the screens where we think we can move conversion or ARPU, so the ones between here and Energy are not drawn. Your social-proof screen and the questions on gender, work, children, relationship, country and date of birth all stay in your flow, unchanged.'},
 
 energy:{ctx:true,t:'What\'s your social energy like?',
  kept:'Your slider, rebuilt as a working control. Drag it or tap a dot and the face, the label and the description all change. The answer is used three more times: on the loader, on the top-pick card and on the paywall.'},
 
 hobbies:{ctx:true,t:'What do you enjoy doing in your free time?',
- kept:'All eighteen of your hobby chips in your order, with the same limit of five. The first one you pick shows up on the payoff screen, the way "books you can\'t put down" does today.'},
+ kept:'All eighteen of your hobby chips in your order, with the same limit of five. The first one you pick shows up on the payoff screen, the way "books you can\'t put down" does today. Both of your friend-qualities screens still follow this one in your flow. We just don\'t draw them, because no idea changes them.'},
 
 loader:{n:5,t:'Say their answers back while the loader runs',
  hyp:'Try naming their goals, their energy and their hobbies in the three loader lines, and showing two of your Trustpilot reviews underneath. <b>Right now every user sees the same "Analyzing your goals" text, and your reviews only appear at step 2, before anyone has answered anything.</b>',

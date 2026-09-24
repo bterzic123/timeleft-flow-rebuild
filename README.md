@@ -4,6 +4,8 @@
 
 Five ideas to unlock more revenue from the traffic Timeleft already has. Each one comes with a clickable prototype of Timeleft's onboarding and paywall, rebuilt in Timeleft's own design. Only the order of the screens changed. The look did not.
 
+The prototype shows 11 of Timeleft's roughly 25 onboarding screens: only the ones where we believe we can move conversion or ARPU. Every other question stays in the flow, unchanged and in its original order.
+
 ## The five ideas
 
 | # | Idea | Screen | Potential outcome |
