@@ -1,0 +1,1074 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<title>Growth Audit — Timeleft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Figtree:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: only light;
+  /* ---- Timeleft, extracted from their live screens ---- */
+  --tl-bg:#F7F4ED; --tl-card:#FFFFFF; --tl-card2:#FAF9F5; --tl-line:#EEE8DE; --tl-track:#DFD7CA;
+  --tl-ink:#111111; --tl-ink2:#6F6B66; --tl-ink3:#A5A09A;
+  --tl-orange:#FA780E; --tl-pink:#FF84D7; --tl-peach:#FFE7D6;
+  --tl-save:#C9F0D2; --tl-save-ink:#1D5A31;
+  --tl-btn:linear-gradient(90deg,#5E5D5A 0%,#1B1B1B 42%,#111 100%);
+  --tl-btn-off:linear-gradient(90deg,#A7A39F 0%,#8B8985 100%);
+  --r-ctl:22px; --r-media:18px;
+  --tl-sans:'Figtree',-apple-system,BlinkMacSystemFont,sans-serif;
+  --tl-serif:'Newsreader',Georgia,serif;
+  /* ---- the report shell (deliberately not their palette) ---- */
+  --bg:#08090B; --bg2:#0E1013; --surf:#14171B;
+  --hair:rgba(255,255,255,.07); --hair2:rgba(255,255,255,.13);
+  --ink:#F7F9FB; --ink2:#A4ACB5; --ink3:#6C757E;
+  --accent:#FA780E; --accent-lift:#FF9B4F;
+  --panel:#FFFFFF; --panel-ink:#15181B; --panel-muted:#5F666D; --panel-line:#E9ECEF;
+  --accent-ink:#B45200;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);
+  font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+@media(max-width:700px){.wrap{padding:0 16px}}
+
+/* ============ top bar ============ */
+.nav{position:sticky;top:0;z-index:70;background:rgba(8,9,11,.82);backdrop-filter:blur(18px) saturate(160%);
+  border-bottom:1px solid var(--hair)}
+.nav-in{max-width:1080px;margin:0 auto;padding:0 32px;height:58px;display:flex;align-items:center;gap:18px}
+@media(max-width:700px){.nav-in{padding:0 16px;gap:12px}}
+.nav-brand{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;letter-spacing:-.01em}
+.nav-brand .mk{width:20px;height:20px;flex:none;border-radius:6px;background:linear-gradient(135deg,var(--accent),#FF84D7);display:grid;place-items:center}
+.nav-brand .mk svg{width:12px;height:12px}
+.nav-brand span{color:var(--ink2);font-weight:500}
+.nav-brand b{color:var(--ink);font-weight:600}
+.nav-links{margin-left:auto;display:flex;gap:2px;align-items:center}
+.nav-links button{padding:7px 14px;border-radius:8px;font-size:13px;font-weight:600;color:var(--ink3);transition:.16s}
+.nav-links button:hover{color:var(--ink)}
+.nav-links button.on{color:var(--ink);background:rgba(255,255,255,.07)}
+@media(max-width:640px){.nav-brand span{display:none}}
+
+.view{display:none}
+.view.on{display:block}
+
+/* ============ hero ============ */
+.hero{padding:104px 0 0;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-340px;left:50%;transform:translateX(-50%);
+  width:1100px;height:640px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(250,120,14,.20),transparent 72%)}
+.hero>*{position:relative}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-lift);margin-bottom:26px}
+.hero h1{font-size:76px;line-height:.98;font-weight:700;letter-spacing:-.045em;margin:0 0 24px}
+@media(max-width:820px){.hero h1{font-size:50px}.hero{padding-top:70px}}
+.hero .lede{font-size:20px;line-height:1.5;font-weight:400;color:var(--ink2);max-width:600px;margin:0 auto;letter-spacing:-.012em}
+@media(max-width:820px){.hero .lede{font-size:17px}}
+.hero .meta{margin-top:30px;font-size:12.5px;color:var(--ink3);letter-spacing:.02em}
+.hero .meta b{color:var(--ink2);font-weight:600}
+
+.stats{display:flex;justify-content:center;gap:0;margin:70px auto 0;max-width:760px;
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.stat{flex:1;padding:26px 14px;text-align:center;border-left:1px solid var(--hair)}
+.stat:first-child{border-left:none}
+.stat b{display:block;font-size:26px;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
+.stat span{display:block;font-size:11.5px;color:var(--ink3);margin-top:5px;line-height:1.35}
+@media(max-width:700px){.stat b{font-size:19px}.stat{padding:18px 8px}}
+
+.fb{max-width:760px;margin:0 auto;padding:30px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:26px;text-align:left}
+@media(max-width:700px){.fb{grid-template-columns:1fr;gap:20px;padding-top:24px}}
+.fb-k{grid-column:1/-1;font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink3);text-align:center;margin-bottom:-6px}
+.fb-i{display:flex;gap:12px;align-items:flex-start}
+.fb-i .tick{width:18px;height:18px;flex:none;margin-top:3px;border-radius:50%;background:rgba(250,120,14,.16);
+  display:grid;place-items:center}
+.fb-i .tick svg{width:10px;height:10px;stroke:var(--accent-lift);stroke-width:3;fill:none;
+  stroke-linecap:round;stroke-linejoin:round}
+.fb-i p{font-size:14px;line-height:1.55;color:var(--ink2);margin:0}
+.fb-i p b{color:var(--ink);font-weight:700}
+
+.sec{padding:96px 0}
+.sec-k{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:18px}
+.sec h2{font-size:38px;line-height:1.14;font-weight:700;letter-spacing:-.035em;margin:0 0 20px;max-width:680px}
+@media(max-width:820px){.sec h2{font-size:29px}.sec{padding:64px 0}}
+.sec p.body{font-size:17px;line-height:1.66;color:var(--ink2);max-width:640px;margin:0 0 18px;letter-spacing:-.008em}
+.sec p.body b{color:var(--ink);font-weight:600}
+.rule{height:1px;background:var(--hair);margin:0}
+
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px;max-width:820px}
+@media(max-width:760px){.notes{grid-template-columns:1fr}}
+.note{background:var(--surf);border:1px solid var(--hair);border-radius:16px;padding:24px 26px}
+.note h4{font-size:15px;font-weight:700;letter-spacing:-.015em;margin:0 0 8px}
+.note p{font-size:14px;line-height:1.6;color:var(--ink2);margin:0}
+
+.ideas{display:flex;flex-direction:column;gap:0;margin-top:14px;border-top:1px solid var(--hair)}
+.idea{display:grid;grid-template-columns:52px 1fr 180px;gap:26px;align-items:start;
+  padding:30px 4px;border-bottom:1px solid var(--hair);text-align:left;width:100%;transition:.18s}
+.idea:hover{background:rgba(255,255,255,.022)}
+@media(max-width:780px){.idea{grid-template-columns:38px 1fr;gap:16px}}
+.idea .no{font-size:13px;font-weight:700;color:var(--ink3);padding-top:4px;letter-spacing:.02em}
+.idea h3{font-size:21px;line-height:1.25;font-weight:700;letter-spacing:-.024em;margin:0 0 7px}
+@media(max-width:820px){.idea h3{font-size:18px}}
+.idea p{font-size:14.5px;line-height:1.6;color:var(--ink2);margin:0;max-width:540px}
+.idea .out{text-align:right;padding-top:3px}
+@media(max-width:780px){.idea .out{grid-column:2;text-align:left;padding-top:12px}}
+.idea .out b{display:block;font-size:19px;font-weight:700;letter-spacing:-.025em;color:var(--accent-lift);white-space:nowrap}
+.idea .out span{display:block;font-size:10.5px;color:var(--ink3);margin-top:3px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+.idea .seeit{display:inline-flex;align-items:center;gap:5px;margin-top:11px;font-size:12.5px;font-weight:600;color:var(--accent-lift)}
+.idea .seeit svg{width:12px;height:12px}
+
+.band{background:var(--surf);border:1px solid var(--hair);border-radius:20px;padding:40px 44px;margin-top:44px;
+  display:flex;align-items:center;gap:36px;flex-wrap:wrap}
+@media(max-width:700px){.band{padding:28px 24px;gap:22px}}
+.band .lab{font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.band .txt{flex:1;min-width:240px}
+.band .txt p{font-size:15.5px;line-height:1.6;color:var(--ink2);margin:0}
+.band .nums{display:flex;gap:34px}
+.band .nums div b{display:block;font-size:30px;font-weight:700;letter-spacing:-.035em;color:var(--accent-lift)}
+.band .nums div span{display:block;font-size:11px;color:var(--ink3);margin-top:2px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+
+.cta-row{display:flex;justify-content:center;margin-top:52px}
+.bigbtn{display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#1C0C00;
+  font-size:15px;font-weight:700;letter-spacing:-.01em;padding:15px 26px;border-radius:30px;transition:.16s}
+.bigbtn:hover{filter:brightness(1.1)}
+.bigbtn svg{width:15px;height:15px}
+.foot{border-top:1px solid var(--hair);padding:36px 0 70px;font-size:12.5px;line-height:1.6;color:var(--ink3)}
+
+/* ============ prototype stage ============ */
+.stage{display:grid;grid-template-columns:minmax(440px,1fr) minmax(400px,470px);gap:0;
+  align-items:start;min-height:calc(100vh - 58px)}
+@media(max-width:1080px){.stage{grid-template-columns:1fr}}
+.phonecol{padding:34px 24px 46px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.panelcol{border-left:1px solid var(--hair);background:var(--panel);color:var(--panel-ink);
+  min-height:calc(100vh - 58px);position:sticky;top:58px;max-height:calc(100vh - 58px);overflow-y:auto}
+@media(max-width:1080px){.panelcol{position:static;max-height:none;border-left:none;border-top:1px solid var(--hair)}}
+@media(max-width:460px){.phonecol{padding:24px 0 36px}.phone{zoom:.86}.stage{overflow-x:hidden}}
+
+.phone{position:relative;width:390px;height:844px;flex:none;background:#000;border:11px solid #000;
+  border-radius:46px;box-shadow:0 0 0 1.5px #2B3035,0 34px 70px -18px rgba(0,0,0,.85)}
+.phone-in{position:absolute;inset:0;border-radius:36px;overflow:hidden;background:var(--tl-bg);color-scheme:only light}
+.island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:104px;height:30px;background:#000;
+  border-radius:16px;z-index:60;pointer-events:none}
+.sbar{position:absolute;top:0;left:0;right:0;height:50px;z-index:55;pointer-events:none;display:flex;
+  align-items:center;justify-content:space-between;padding:14px 26px 0;font:700 13px/1 var(--tl-sans);color:#111;transition:color .2s}
+.sbar.light{color:#fff}
+.sbar .glyphs{display:flex;gap:5px;align-items:center}
+.homebar{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:134px;height:5px;
+  border-radius:3px;background:rgba(0,0,0,.8);z-index:56;pointer-events:none}
+.screenwrap{position:absolute;inset:0;overflow:hidden;background:var(--tl-bg);font-family:var(--tl-sans);color:var(--tl-ink)}
+
+/* ---- phone screen shell (scr-* is reserved for inside the phone) ---- */
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--tl-bg);
+  transform:translateX(100%);transition:transform .36s cubic-bezier(.32,.72,0,1);z-index:10;will-change:transform}
+.scr.is-active{transform:translateX(0);z-index:20}
+.scr.is-past{transform:translateX(-24%)}
+.scr.sheet{transform:translateY(100%)}
+.scr.sheet.is-active{transform:translateY(0)}
+.scr.nofx{transition:none}
+.scr-top{flex:none;padding:52px 16px 0}
+.scr-body{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:0 16px;scrollbar-width:none}
+.scr-body::-webkit-scrollbar{display:none}
+.scr-body.dock{display:flex;flex-direction:column}
+.scr-foot{flex:none;padding:12px 16px 30px}
+
+.scr-nav{position:relative;display:flex;align-items:center;justify-content:center;height:40px}
+.scr-back{position:absolute;left:0;top:2px;width:36px;height:36px;display:grid;place-items:center;color:#111}
+.scr-back svg{width:24px;height:24px}
+.scr-ttl{font:700 15px/1 var(--tl-sans);letter-spacing:-.005em}
+.scr-prog{height:3px;border-radius:2px;background:var(--tl-track);overflow:hidden;margin-top:6px}
+.scr-prog i{display:block;height:100%;border-radius:2px;background:linear-gradient(90deg,var(--tl-orange),var(--tl-pink))}
+.scr-h{font:700 25px/1.2 var(--tl-sans);letter-spacing:-.018em;margin:24px 0 0;text-align:center}
+.scr-h.left{text-align:left}
+.scr-sub{font:500 14.5px/1.4 var(--tl-sans);color:var(--tl-ink2);margin:9px 0 0;text-align:center}
+.scr-sub.left{text-align:left}
+
+.scr-btn{display:block;width:100%;border-radius:30px;height:52px;font:700 15.5px/1 var(--tl-sans);
+  background:var(--tl-btn);color:#fff;transition:filter .15s}
+.scr-btn:hover{filter:brightness(1.12)}
+.scr-btn[disabled]{background:var(--tl-btn-off);color:#E4E1DC;cursor:default;filter:none}
+.scr-btn.out{background:#fff;color:#111;border:1px solid var(--tl-line)}
+.scr-link{display:block;width:100%;height:44px;font:700 15px/1 var(--tl-sans);color:#111;margin-top:4px}
+.scr-help{font:500 12.5px/1.45 var(--tl-sans);color:var(--tl-ink2);text-align:center;margin:0 0 10px}
+
+/* option rows */
+.t-rows{display:flex;flex-direction:column;gap:9px;margin-top:22px}
+.t-row{display:flex;align-items:center;gap:10px;width:100%;min-height:58px;padding:0 16px;text-align:left;
+  background:var(--tl-card);border:1.5px solid var(--tl-line);border-radius:var(--r-ctl);
+  font:700 15px/1.25 var(--tl-sans);color:#111;transition:border-color .15s}
+.t-row .e{font-size:18px;width:24px;flex:none}
+.t-row .lb{flex:1}
+.t-row .rd{width:20px;height:20px;border-radius:50%;border:1.5px solid #D9D3C9;flex:none;display:grid;place-items:center}
+.t-row.on{border-color:#111}
+.t-row.on .rd{border-color:#111;background:#111}
+.t-row.on .rd::after{content:'';width:9px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:translateY(-1px) rotate(-45deg)}
+
+/* hobby chips */
+.t-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.t-chip{display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 13px;background:var(--tl-card);
+  border:1.5px solid var(--tl-line);border-radius:18px;font:700 13.5px/1 var(--tl-sans);color:#111;transition:border-color .15s}
+.t-chip.on{border-color:#111}
+
+/* energy */
+.t-face{position:relative;width:128px;height:128px;border-radius:50%;margin:30px auto 0;transition:background .35s}
+.t-face .eye{position:absolute;top:38px;width:30px;height:30px;border-radius:50%;background:#fff}
+.t-face .eye::after{content:'';position:absolute;width:15px;height:15px;border-radius:50%;background:#111;top:8px;left:9px}
+.t-face .eye.l{left:30px}.t-face .eye.r{left:66px}
+.t-face .mouth{position:absolute;left:50%;top:80px;transform:translateX(-50%);width:30px;height:15px;background:#111;border-radius:0 0 16px 16px;transition:.3s}
+.t-face.e0 .mouth{width:18px;height:6px;border-radius:0 0 8px 8px;top:84px}
+.t-elab{font:700 18px/1.2 var(--tl-sans);text-align:center;margin-top:22px}
+.t-edesc{font:500 13.5px/1.45 var(--tl-sans);color:var(--tl-ink3);text-align:center;margin-top:6px;min-height:40px}
+.t-slider{position:relative;height:40px;margin:22px 26px 0;background:#fff;border-radius:22px}
+.t-slider .d{position:absolute;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%}
+.t-slider .knob{position:absolute;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,#555,#111 70%);box-shadow:0 0 0 3px #fff,0 2px 6px rgba(0,0,0,.25);
+  transition:left .28s cubic-bezier(.32,.72,0,1);pointer-events:none}
+.t-slider input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;margin:0}
+.t-ehelp{font:700 14px/1 var(--tl-sans);text-align:center;margin-top:34px}
+
+/* loader */
+.t-load{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%}
+.t-ring{position:relative;width:120px;height:120px}
+.t-ring i{position:absolute;width:30px;height:30px;border-radius:50%;left:45px;top:45px;animation:pulse 1.8s ease-in-out infinite}
+.t-ring b{position:absolute;inset:0;display:grid;place-items:center;font:700 15px/1 var(--tl-sans);color:#8E8A85}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+.t-load h2{font:700 25px/1.22 var(--tl-sans);letter-spacing:-.02em;text-align:center;margin:22px 0 0}
+.t-steps{width:100%;background:var(--tl-card2);border-radius:20px;padding:15px 18px;margin-top:22px;display:flex;flex-direction:column;gap:11px}
+.t-step{display:flex;align-items:center;gap:11px;font:500 14px/1.3 var(--tl-sans);color:#B1ACA5;transition:.35s}
+.t-step .c{width:19px;height:19px;border-radius:50%;border:1.6px solid #C9C3BA;flex:none;display:grid;place-items:center;transition:.35s}
+.t-step.on{color:#111}
+.t-step.on .c{background:#111;border-color:#111}
+.t-step.on .c::after{content:'';width:8px;height:4px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:translateY(-1px) rotate(-45deg)}
+.t-rev{width:100%;background:#fff;border-radius:20px;box-shadow:0 8px 24px -10px rgba(60,40,10,.25);padding:15px 16px;margin-top:14px;min-height:124px}
+.t-rev .st{color:var(--tl-orange);font-size:15px;letter-spacing:2px}
+.t-rev p{font:500 13.5px/1.45 var(--tl-sans);margin:6px 0 0;color:#222}
+.t-rev .who{font:700 12.5px/1 var(--tl-sans);color:#555;margin-top:10px}
+.t-rev .who span{font-weight:500;color:var(--tl-ink3)}
+.t-revk{font:700 11px/1 var(--tl-sans);letter-spacing:.06em;text-transform:uppercase;color:#8E8A85;margin-top:18px;text-align:center}
+
+/* payoff */
+.t-badge{width:76px;height:76px;display:block;margin:0 auto}
+.t-payh{font:700 25px/1.22 var(--tl-sans);letter-spacing:-.02em;text-align:center;margin:20px 0 0}
+.t-paycard{background:var(--tl-card2);border-radius:20px;padding:16px 18px;margin-top:22px;
+  font:500 14.5px/1.5 var(--tl-sans);text-align:center;color:#222}
+
+/* city */
+.t-map{position:relative;border-radius:20px;overflow:hidden;margin-top:22px;border:1px solid var(--tl-line);height:236px}
+.t-map img{width:100%;height:100%;object-fit:cover;display:block}
+.t-lock{font:500 12.5px/1 var(--tl-sans);color:var(--tl-ink2);text-align:center;margin:0 0 12px;display:flex;align-items:center;justify-content:center;gap:6px}
+.t-lock svg{width:13px;height:13px}
+
+/* booking */
+.t-top{position:relative;border:1.5px solid var(--tl-orange);border-radius:24px;padding:22px 10px 10px;margin-top:26px;background:rgba(250,120,14,.03)}
+.t-toptag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);white-space:nowrap;
+  background:linear-gradient(90deg,var(--tl-orange),var(--tl-pink));color:#111;font:700 12px/1 var(--tl-sans);padding:6px 11px;border-radius:9px}
+.t-toptxt{font:500 13.5px/2 var(--tl-sans);color:var(--tl-ink2);padding:0 6px 8px}
+.t-trait{display:inline-flex;align-items:center;gap:3px;background:#fff;border-radius:8px;padding:0 7px;font:700 12.5px/1.9 var(--tl-sans);color:#111}
+.t-ev{display:flex;align-items:center;gap:13px;width:100%;background:#fff;border:1px solid var(--tl-line);border-radius:20px;padding:13px 13px;text-align:left;margin-top:10px}
+.t-top .t-ev{margin-top:0}
+.t-evi{width:48px;height:48px;border-radius:14px;background:var(--tl-peach);display:grid;place-items:center;flex:none}
+.t-evi svg{width:24px;height:24px}
+.t-ev .tx{flex:1;min-width:0}
+.t-ev .tx b{display:block;font:700 15px/1.25 var(--tl-sans)}
+.t-ev .tx span{display:block;font:500 13.5px/1.35 var(--tl-sans);color:#222;margin-top:2px}
+.t-ev .tx small{display:block;font:500 12px/1.3 var(--tl-sans);color:var(--tl-ink3);margin-top:2px}
+.t-ev .go{width:30px;height:30px;border-radius:50%;background:#111;display:grid;place-items:center;flex:none}
+.t-ev .go svg{width:15px;height:15px}
+
+/* paywall */
+.scr--pay .scr-body{padding:0}
+.t-hero{position:relative;height:178px;flex:none}
+.t-hero img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;display:block}
+.t-hero::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:70px;background:linear-gradient(180deg,rgba(247,244,237,0),var(--tl-bg))}
+.t-x{position:absolute;top:50px;right:16px;z-index:30;width:30px;height:30px;display:grid;place-items:center;color:#fff}
+.t-x svg{width:20px;height:20px}
+.t-pin{padding:0 16px}
+.t-payh2{font:400 31px/1.12 var(--tl-serif);letter-spacing:-.018em;margin:0;color:#111}
+.t-paysub{font:500 13.5px/1.4 var(--tl-sans);color:var(--tl-ink2);margin:8px 0 0}
+.t-seat{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--tl-line);border-radius:20px;padding:12px 13px;margin-top:14px}
+.t-seat .tx b{display:block;font:700 14.5px/1.25 var(--tl-sans)}
+.t-seat .tx span{display:block;font:500 12.5px/1.35 var(--tl-sans);color:#333;margin-top:2px}
+.t-seat .tx em{font-style:normal;display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.t-seat .tx em i{font-style:normal;background:var(--tl-bg);border-radius:7px;padding:3px 7px;font:700 11px/1 var(--tl-sans)}
+.t-seat .held{margin-left:auto;align-self:flex-start;font:700 10.5px/1 var(--tl-sans);color:var(--tl-save-ink);background:var(--tl-save);padding:5px 7px;border-radius:7px;white-space:nowrap}
+.t-plans{display:flex;flex-direction:column;gap:9px;margin-top:12px}
+.t-plan{display:flex;align-items:center;gap:12px;width:100%;background:#fff;border:1.5px solid var(--tl-line);border-radius:20px;padding:12px 14px;text-align:left}
+.t-plan.on{border:2px solid #111;padding:11.5px 13.5px}
+.t-plan .rd{width:22px;height:22px;border-radius:50%;border:1.5px solid #D9D3C9;flex:none;display:grid;place-items:center}
+.t-plan.on .rd{border:2px solid #111}
+.t-plan.on .rd::after{content:'';width:11px;height:11px;border-radius:50%;background:#111}
+.t-plan .l{flex:1;min-width:0}
+.t-plan .l b{display:block;font:700 16px/1.2 var(--tl-sans)}
+.t-plan .l span{display:block;font:700 12.5px/1.3 var(--tl-sans);margin-top:3px;white-space:nowrap}
+.t-plan .l s{display:block;font:600 11.5px/1.2 var(--tl-sans);color:#8E8A85;margin-top:2px}
+.t-plan .r{text-align:right;flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.t-plan .r .sv{background:var(--tl-save);color:var(--tl-save-ink);font:600 11.5px/1 var(--tl-sans);padding:5px 8px;border-radius:8px}
+.t-plan .r b{font:700 13px/1.1 var(--tl-sans);white-space:nowrap}
+.t-promo{border:1px solid var(--tl-line);border-radius:20px;padding:12px;text-align:center;margin-top:10px;background:rgba(255,255,255,.4)}
+.t-promo p{font:500 13.5px/1 var(--tl-sans);color:#333}
+.t-promo b{display:flex;align-items:center;justify-content:center;gap:7px;font:700 14px/1 var(--tl-sans);margin-top:9px}
+.t-promo svg{width:16px;height:16px}
+.t-bens{background:#fff;border:1px solid var(--tl-line);border-radius:20px;padding:14px 16px;margin-top:12px;display:flex;flex-direction:column;gap:12px}
+.t-ben{display:flex;gap:10px}
+.t-ben .ic{width:20px;height:20px;border-radius:50%;flex:none;margin-top:1px;display:grid;place-items:center}
+.t-ben .ic::after{content:'';width:7px;height:7px;border-radius:50%;background:#fff}
+.t-ben b{display:block;font:700 13.5px/1.3 var(--tl-sans)}
+.t-ben span{display:block;font:500 12.5px/1.4 var(--tl-sans);color:#333;margin-top:2px}
+.t-stars{color:var(--tl-orange);font-size:19px;letter-spacing:3px;margin:14px 0 0}
+.t-legal{font:500 10.5px/1.45 var(--tl-sans);color:var(--tl-ink3);margin:12px 0 18px;text-align:center}
+.scr--pay .scr-foot{padding:10px 16px 26px;background:var(--tl-bg)}
+.t-every{font:500 12.5px/1 var(--tl-sans);color:var(--tl-ink2);text-align:center;margin-top:12px}
+
+/* offer sheet */
+.scr--offer{background:transparent}
+.t-dim{position:absolute;inset:0;background:var(--tl-bg);z-index:0}
+.t-dim img{width:100%;height:178px;object-fit:cover;object-position:50% 40%;display:block}
+.t-dim .ghost{padding:0 16px;font:400 31px/1.12 var(--tl-serif);color:#111}
+.t-dim::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.42)}
+.t-sheet{position:absolute;left:0;right:0;bottom:0;z-index:2;background:var(--tl-bg);border-radius:30px 30px 0 0;display:flex;flex-direction:column;max-height:74%}
+.t-sheet .scr-body{padding:24px 16px 0}
+.t-gift{width:64px;height:64px;display:block;margin:0 auto}
+.t-offh{font:700 21px/1.3 var(--tl-sans);letter-spacing:-.015em;text-align:center;margin:14px 0 0}
+.t-offs{font:500 13px/1.4 var(--tl-sans);color:var(--tl-ink2);text-align:center;margin:8px 0 0}
+.t-oplan{position:relative;margin-top:16px;border-radius:22px;padding:2px;background:linear-gradient(90deg,var(--tl-orange),var(--tl-pink))}
+.t-oplan>div{background:#fff;border-radius:20px;padding:16px 16px 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+.t-oplan .n{font:700 15px/1 var(--tl-sans);padding-bottom:2px}
+.t-oplan .p{text-align:right}
+.t-oplan .p i{display:inline-block;font-style:normal;background:#FAD9CF;color:#8A3517;font:600 11px/1 var(--tl-sans);padding:5px 8px;border-radius:8px}
+.t-oplan .p b{display:block;font:700 14.5px/1 var(--tl-sans);margin-top:10px;white-space:nowrap}
+.t-oplan .p b s{color:#111;font-weight:700;margin-right:6px}
+.t-ofine{font:500 11px/1.45 var(--tl-sans);color:var(--tl-ink3);text-align:center;margin:12px 0 4px}
+
+/* account */
+.t-inp{width:100%;height:50px;border-radius:18px;background:#fff;border:1px solid var(--tl-line);padding:0 16px;
+  font:500 15px/1 var(--tl-sans);color:#111;outline:none;margin-top:26px}
+.t-inp:focus{border-color:#111}
+.t-or{display:flex;align-items:center;gap:10px;font:500 12.5px/1 var(--tl-sans);color:var(--tl-ink3);margin:22px 0 16px}
+.t-or::before,.t-or::after{content:'';flex:1;height:1px;background:var(--tl-track)}
+.t-soc{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;height:50px;border-radius:26px;background:#fff;border:1px solid var(--tl-line);font:700 15px/1 var(--tl-sans);margin-top:10px}
+.t-soc svg{width:18px;height:18px}
+.t-phone{display:flex;gap:8px;margin-top:26px}
+.t-cc{flex:none;height:50px;border-radius:16px;background:#fff;border:1px solid var(--tl-line);padding:0 12px;display:flex;align-items:center;gap:8px;font:600 15px/1 var(--tl-sans)}
+.t-phone .t-inp{margin-top:0;border:1.5px solid #111}
+.t-terms{font:500 11.5px/1.5 var(--tl-sans);color:var(--tl-ink2);text-align:center}
+.t-terms u{text-decoration:underline}
+.hidden{display:none !important}
+
+/* notifications */
+.t-bell{width:34px;height:34px;display:block;margin:30px auto 0}
+.t-mock{position:relative;margin:24px 8px 0;height:250px;border:10px solid #EAE5DC;border-bottom:none;border-radius:44px 44px 0 0;overflow:visible}
+.t-mock .pill{width:96px;height:24px;border-radius:14px;background:#EAE5DC;margin:12px auto 0}
+.t-note{position:relative;display:flex;align-items:center;gap:11px;background:#fff;border-radius:18px;padding:12px 40px 12px 13px;margin:12px -22px 0;box-shadow:0 6px 18px -8px rgba(60,40,10,.25)}
+.t-note .av{width:36px;height:36px;border-radius:50%;flex:none}
+.t-note b{display:block;font:700 13px/1.3 var(--tl-sans)}
+.t-note span{display:block;font:500 12.5px/1.3 var(--tl-sans);color:#333}
+.t-note em{position:absolute;right:12px;top:12px;font:500 11px/1 var(--tl-sans);color:var(--tl-ink3);font-style:normal}
+
+/* chips under the phone */
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:470px;margin:0 auto}
+.chip{padding:7px 13px;border-radius:20px;border:1px solid #2C3136;background:#1B1F22;
+  font:600 12px/1 'Plus Jakarta Sans',sans-serif;color:#B9C1C8;transition:.14s}
+.chip:hover{color:#E8ECEF;border-color:#3D444A}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#1C0C00}
+.chip.offer{border-color:rgba(250,120,14,.55);color:var(--accent-lift)}
+.chip.offer.on{color:#1C0C00}
+.chiphint{text-align:center;font-size:11px;color:var(--ink3);margin:0;max-width:430px}
+
+/* ============ the short panel ============ */
+.pn{padding:30px 30px 60px}
+.pn-n{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+.pn-n.ctx{color:var(--panel-muted)}
+.pn-t{font-size:23px;line-height:1.18;font-weight:700;letter-spacing:-.028em;margin:8px 0 0;color:var(--panel-ink)}
+.pn-hyp{font-size:15px;line-height:1.62;color:#2E353B;margin:16px 0 0}
+.pn-hyp b{font-weight:700;color:var(--panel-ink)}
+.pn-out{margin-top:22px;border-top:1px solid var(--panel-line);padding-top:18px}
+.pn-out .lab{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--panel-muted)}
+.pn-out .v{font-size:31px;font-weight:700;letter-spacing:-.035em;color:var(--accent-ink);margin-top:7px;line-height:1}
+.pn-kept{margin-top:22px;font-size:12.5px;line-height:1.55;color:var(--panel-muted)}
+.pn-kept b{color:#2E353B;font-weight:700}
+.pn-foot{font-size:11.5px;line-height:1.55;color:var(--panel-muted);border-top:1px solid var(--panel-line);padding-top:14px;margin-top:26px}
+.pn-sep{height:1px;background:var(--panel-line);margin:26px 0}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-in">
+    <div class="nav-brand">
+      <span class="mk"><svg viewBox="0 0 24 24" fill="none"><circle cx="8.5" cy="10" r="2.2" fill="#1C0C00"/><circle cx="15.5" cy="10" r="2.2" fill="#1C0C00"/><path d="M8 15.5c2.2 2 5.8 2 8 0" stroke="#1C0C00" stroke-width="2.2" stroke-linecap="round"/></svg></span>
+      <b>Growth Audit</b><span>· Timeleft</span>
+    </div>
+    <div class="nav-links">
+      <button class="on" data-view="over">Overview</button>
+      <button data-view="proto">Prototype</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= OVERVIEW ======================= -->
+<div class="view on" id="view-over">
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Growth Audit · September 2026</div>
+    <h1>Timeleft</h1>
+    <p class="lede">Five ideas to unlock more revenue from the traffic you already have.</p>
+    <div class="meta">Prepared by <b>Adapty</b> · based on your live iOS flow and your App Store listing</div>
+    <div class="stats">
+      <div class="stat"><b>30,000+</b><span>apps run subscriptions<br>on Adapty</span></div>
+      <div class="stat"><b>5</b><span>ideas, each rebuilt<br>as a working screen</span></div>
+      <div class="stat"><b>0</b><span>design changes<br>to your art direction</span></div>
+    </div>
+    <div class="fb">
+      <div class="fb-k">Built in Adapty Flow Builder</div>
+      <div class="fb-i">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <p><b>Millions of dollars</b> in subscription revenue pass through Flow Builder every month.</p>
+      </div>
+      <div class="fb-i">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <p><b>Nearly 500 apps</b> actively build their paywalls and onboarding in it — plenty of them past $100K MRR.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-k">What this is</div>
+    <h2>We walked your onboarding the way a new user does, then rebuilt the parts we think are leaving money on the table.</h2>
+    <p class="body">Adapty powers subscriptions for <b>30,000+ apps</b>, so we see what moves conversion and ARPU across the market, not just inside one app. We pointed that at Timeleft. We installed it, went through the whole flow up to the paywall and its 20%-off sheet, read your App Store listing, and looked for gaps between what you already have and what you show people.</p>
+    <p class="body">What follows is five ideas, not fifteen. Each one is a hypothesis you can A/B test, and each one is built into a clickable prototype so you can see it rather than imagine it. <b>The prototype uses your design, not ours.</b></p>
+    <div class="notes">
+      <div class="note">
+        <h4>We did not redesign your app</h4>
+        <p>Every screen in the prototype is yours: the cream surfaces, the black pill buttons, the orange-to-pink progress bar, the energy slider, your serif paywall headline. Only the order changed, plus a few things you already have but show in the wrong place.</p>
+      </div>
+      <div class="note">
+        <h4>You may have tested some of this</h4>
+        <p>We are working from the outside, so we cannot see your experiment history. If you have already run one of these, tell us and we will go deeper on the rest rather than repeat it.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-k">The five ideas</div>
+    <h2>Ranked by what we would test first.</h2>
+    <p class="body">Each one links straight to the screen in the prototype.</p>
+
+    <div class="ideas">
+      <button class="idea" data-jump="paywall">
+        <span class="no">01</span>
+        <span>
+          <h3>Put the dinner they just picked on the paywall</h3>
+          <p>One screen before the paywall, people choose a real seat: Friday, September 25, 8:00 PM, Budapest, English, $$. Then the paywall says "Get unlimited access to weekly meetups" and never mentions that dinner again. Your 20%-off sheet doesn't mention it either.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +15–20%</b><span>to purchase</span></span>
+      </button>
+
+      <button class="idea" data-jump="paywall">
+        <span class="no">02</span>
+        <span>
+          <h3>Make your three prices readable</h3>
+          <p>On the 3-month and 12-month cards, the price and the weekly price print on top of each other. What people actually see is "HUF 10,9…916.67/week". Those are the two plans you most want someone to pick, and the price on them is the one thing they can't read.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +5–8%</b><span>to purchase</span></span>
+      </button>
+
+      <button class="idea" data-jump="account">
+        <span class="no">03</span>
+        <span>
+          <h3>Ask for the account after the paywall</h3>
+          <p>Right now "Create your account" is step 6 and a phone number is step 9. Both come before the personality questions, the loader or a single dinner date. After someone pays, an account is how they keep the seat they just bought, so it's an easy ask.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +8%</b><span>ARPU +17%</span></span>
+      </button>
+
+      <button class="idea" data-jump="city">
+        <span class="no">04</span>
+        <span>
+          <h3>Ask for location and notifications once they've paid</h3>
+          <p>Two system prompts sit between your personalized result and your events: notifications, then precise location. Location only picks a city here, and your own privacy screen says you keep it at city level. Notifications matter once there is a booking to update.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +10–15%</b><span>to purchase</span></span>
+      </button>
+
+      <button class="idea" data-jump="loader">
+        <span class="no">05</span>
+        <span>
+          <h3>Say their answers back while the loader runs</h3>
+          <p>The loader reads "Analyzing your goals, your energy, your interests" for everyone. Name what they picked instead. Show your Trustpilot reviews underneath too. Right now they only appear at step 2, before anyone has answered anything.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +10–15%</b><span>to purchase</span></span>
+      </button>
+    </div>
+
+    <div class="band">
+      <div class="txt">
+        <div class="lab">Potential outcome</div>
+        <p>All five do the same thing. They make the paywall about the specific dinner someone just chose, and they move every question that isn't about that dinner out of the way.</p>
+      </div>
+      <div class="nums">
+        <div><b>up to +25%</b><span>CR to purchase</span></div>
+        <div><b>up to +17%</b><span>ARPU</span></div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <button class="bigbtn" data-view="proto">Open the prototype
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="foot">
+  <div class="wrap">
+    Impact ranges are Adapty's expected effect from teardowns and A/B tests across subscription apps, not measured lift for Timeleft. Every price, rating, review and figure here and in the prototype comes from Timeleft's own App Store listing, website and in-app screens.
+  </div>
+</div>
+</div><!-- /view-over -->
+
+<!-- ======================= PROTOTYPE ======================= -->
+<div class="view" id="view-proto">
+<div class="stage">
+  <div class="phonecol">
+    <div class="phone">
+      <div class="phone-in">
+        <div class="island"></div>
+        <div class="sbar" id="sbar">
+          <span>9:41</span>
+          <span class="glyphs">
+            <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7.5" width="3" height="3.5" rx="1"/><rect x="4.5" y="5.5" width="3" height="5.5" rx="1"/><rect x="9" y="3" width="3" height="8" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+            <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 10.5 5.6 7.9a3.4 3.4 0 0 1 4.8 0L8 10.5Zm0-5.6a6.4 6.4 0 0 0-4.5 1.9L1.7 4.9a9 9 0 0 1 12.6 0l-1.8 1.9A6.4 6.4 0 0 0 8 4.9Z"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".6" y=".6" width="20" height="10.8" rx="3" stroke="currentColor" stroke-opacity=".5"/><rect x="2.2" y="2.2" width="16.5" height="7.6" rx="1.8" fill="currentColor"/><path d="M22.3 4.1v3.8a2 2 0 0 0 0-3.8Z" fill="currentColor" fill-opacity=".5"/></svg>
+          </span>
+        </div>
+        <div class="homebar"></div>
+        <div class="screenwrap">
+
+<!-- GOALS -->
+<section class="scr" data-id="goals">
+  <div class="scr-top">
+    <div class="scr-nav"><span class="scr-ttl">Goals</span></div>
+    <div class="scr-prog"><i style="width:6%"></i></div>
+    <h2 class="scr-h">What are you looking for?</h2>
+    <p class="scr-sub">Select up to 2</p>
+  </div>
+  <div class="scr-body">
+    <div class="t-rows" id="goalList">
+      <button class="t-row" data-v="friends"><span class="e">👯</span><span class="lb">Make new friends</span><span class="rd"></span></button>
+      <button class="t-row" data-v="out"><span class="e">💫</span><span class="lb">Get out more</span><span class="rd"></span></button>
+      <button class="t-row" data-v="talk"><span class="e">💬</span><span class="lb">Have meaningful conversations</span><span class="rd"></span></button>
+      <button class="t-row" data-v="special"><span class="e">💘</span><span class="lb">Meet someone special</span><span class="rd"></span></button>
+      <button class="t-row" data-v="newtown"><span class="e">🌃</span><span class="lb">I'm new in town</span><span class="rd"></span></button>
+      <button class="t-row" data-v="travel"><span class="e">🌏</span><span class="lb">Exploring while traveling</span><span class="rd"></span></button>
+    </div>
+  </div>
+  <div class="scr-foot"><button class="scr-btn" id="goalsBtn" data-go="energy">Continue</button></div>
+</section>
+
+<!-- ENERGY -->
+<section class="scr" data-id="energy">
+  <div class="scr-top">
+    <div class="scr-nav"><button class="scr-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H4M10 18l-6-6 6-6"/></svg></button><span class="scr-ttl">Energy</span></div>
+    <div class="scr-prog"><i style="width:62%"></i></div>
+    <h2 class="scr-h" style="margin-top:34px">What's your social<br>energy like?</h2>
+  </div>
+  <div class="scr-body">
+    <div class="t-face" id="face"><span class="eye l"></span><span class="eye r"></span><span class="mouth"></span></div>
+    <div class="t-elab" id="eLab">Extroverted</div>
+    <div class="t-edesc" id="eDesc">I love being around people,<br>it gives me energy.</div>
+    <div class="t-slider">
+      <span class="d" style="left:8%;background:#F8D46E"></span>
+      <span class="d" style="left:50%;background:#E4A6F0"></span>
+      <span class="d" style="left:92%;background:#F59A5E"></span>
+      <span class="knob" id="knob"></span>
+      <input type="range" min="0" max="2" step="1" value="2" id="eRange" aria-label="Social energy">
+    </div>
+    <p class="t-ehelp">Slide or click to change your answer</p>
+  </div>
+  <div class="scr-foot"><button class="scr-btn" data-go="hobbies">Continue</button></div>
+</section>
+
+<!-- HOBBIES -->
+<section class="scr" data-id="hobbies">
+  <div class="scr-top">
+    <div class="scr-nav"><button class="scr-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H4M10 18l-6-6 6-6"/></svg></button><span class="scr-ttl">Hobbies</span></div>
+    <div class="scr-prog"><i style="width:70%"></i></div>
+    <h2 class="scr-h left" style="margin-top:14px">What do you enjoy doing in your free time?</h2>
+    <p class="scr-sub left" id="hobCount">Select up to 5</p>
+  </div>
+  <div class="scr-body">
+    <div class="t-chips" id="hobList"></div>
+    <div style="height:14px"></div>
+  </div>
+  <div class="scr-foot"><button class="scr-btn" id="hobBtn" data-go="loader">Continue</button></div>
+</section>
+
+<!-- LOADER -->
+<section class="scr" data-id="loader">
+  <div class="scr-top"><div class="scr-nav"><button class="scr-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H4M10 18l-6-6 6-6"/></svg></button></div></div>
+  <div class="scr-body">
+    <div class="t-load">
+      <div class="t-ring" id="ring"><b id="pct">0%</b></div>
+      <h2>We're curating<br>your experience</h2>
+      <div class="t-steps" id="lSteps">
+        <div class="t-step"><span class="c"></span><span class="t">Analyzing your goals</span></div>
+        <div class="t-step"><span class="c"></span><span class="t">Analyzing your energy</span></div>
+        <div class="t-step"><span class="c"></span><span class="t">Analyzing your interests</span></div>
+      </div>
+      <div class="t-revk">18K+ 5-star reviews</div>
+      <div class="t-rev"><div class="st">★★★★★</div><p id="rText">—</p><div class="who" id="rWho">—</div></div>
+    </div>
+  </div>
+  <div class="scr-foot"></div>
+</section>
+
+<!-- PAYOFF -->
+<section class="scr" data-id="payoff">
+  <div class="scr-top"><div class="scr-nav"><button class="scr-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H4M10 18l-6-6 6-6"/></svg></button></div></div>
+  <div class="scr-body dock" style="justify-content:center">
+    <img class="t-badge" src="img/badge.png" alt="">
+    <h2 class="t-payh">We know you a little<br>better now</h2>
+    <div class="t-paycard">We'll find the best group for you.<br><span id="payoffLine">You'll probably end up talking about books you can't put down 📚</span></div>
+    <div style="height:60px"></div>
+  </div>
+  <div class="scr-foot"><button class="scr-btn" data-go="city">Continue</button></div>
+</section>
+
+<!-- CITY -->
+<section class="scr" data-id="city">
+  <div class="scr-top">
+    <div class="scr-nav"><button class="scr-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H4M10 18l-6-6 6-6"/></svg></button><span class="scr-ttl">Location</span></div>
+    <h2 class="scr-h" style="margin-top:22px">Where do you want<br>to connect?</h2>
+    <p class="scr-sub">Let's find your people nearby.</p>
+  </div>
+  <div class="scr-body">
+    <div class="t-map"><img src="img/map.jpg" alt="Map of Budapest"></div>
+  </div>
+  <div class="scr-foot">
+    <p class="t-lock"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 10V8a5 5 0 0 1 10 0v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h1Zm2 0h6V8a3 3 0 0 0-6 0v2Z"/></svg>We'll never store your exact location.</p>
+    <button class="scr-btn" data-go="booking">Continue in Budapest</button>
+    <button class="scr-btn out" style="margin-top:10px">Find another city</button>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="scr" data-id="booking">
+  <div class="scr-top">
+    <div class="scr-nav"><button class="scr-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H4M10 18l-6-6 6-6"/></svg></button><span class="scr-ttl">Booking</span></div>
+    <h2 class="scr-h" style="margin-top:22px">Book your first event</h2>
+    <p class="scr-sub">In Budapest</p>
+  </div>
+  <div class="scr-body">
+    <div class="t-top">
+      <span class="t-toptag">Our top picks for you</span>
+      <div class="t-toptxt">99% of people with traits <span class="t-trait" id="traitE">Extroverted</span> , <span class="t-trait">😂 Funny</span> and <span class="t-trait">🔥 Warm</span> loved this event.</div>
+      <div id="evTop"></div>
+    </div>
+    <div id="evList"></div>
+    <div style="height:16px"></div>
+  </div>
+</section>
+
+<!-- PAYWALL -->
+<section class="scr scr--pay" data-id="paywall">
+  <button class="t-x" id="payClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <div class="scr-body">
+    <div class="t-hero"><img src="img/hero.jpg" alt=""></div>
+    <div class="t-pin">
+      <h2 class="t-payh2" id="payH">Your seat at Friday's dinner is waiting</h2>
+      <p class="t-paysub">Start meeting people in real life effortlessly</p>
+      <div class="t-seat">
+        <span class="t-evi"><svg viewBox="0 0 24 24" fill="#FA780E"><path d="M6 2h1.6v6.2h1.2V2h1.6v6.2h1.2V2h1.6v7.4a2.8 2.8 0 0 1-2.2 2.7V22H8.6V12.1A2.8 2.8 0 0 1 6 9.4V2Zm10.2 0c1.9 0 2.8 2.3 2.8 6v4.6h-1.8V22h-2.4V2h1.4Z"/></svg></span>
+        <span class="tx"><b id="seatDate">Friday, September 25</b><span id="seatMeta">Dinner · 8:00 PM · Budapest</span><em id="seatChips"></em></span>
+        <span class="held">Seat held</span>
+      </div>
+      <div class="t-plans" id="planList">
+        <button class="t-plan" data-v="1m"><span class="rd"></span><span class="l"><b>1 Month</b><span>HUF 4,799.99</span></span><span class="r"><b>HUF 1,200.00/week</b></span></button>
+        <button class="t-plan" data-v="3m"><span class="rd"></span><span class="l"><b>3 Months</b><span>HUF 10,999.99</span><s>HUF 14,399.97</s></span><span class="r"><span class="sv">Save 24%</span><b>HUF 916.67/week</b></span></button>
+        <button class="t-plan" data-v="12m"><span class="rd"></span><span class="l"><b>12 Months</b><span>HUF 20,999.99</span><s>HUF 57,599.88</s></span><span class="r"><span class="sv">Save 64%</span><b>HUF 437.50/week</b></span></button>
+      </div>
+      <div class="t-promo"><p>Got a promo code?</p><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.4"/></svg>Enter here</b></div>
+      <div class="t-bens">
+        <div class="t-ben"><span class="ic" style="background:#F07FD8"></span><span><b>Unlimited in real life events</b><span>Meet new people through exclusive Timeleft dinners, drinks, and experiences happening every week. Your city just got a lot more social.</span></span></div>
+        <div class="t-ben"><span class="ic" style="background:#F2771A"></span><span><b>Always something new</b><span>Fresh venues, new faces, new vibes — every week feels different.</span></span></div>
+        <div class="t-ben"><span class="ic" style="background:#8E7CF0"></span><span><b>Real connections</b><span>After every event, match and stay in touch with people you genuinely clicked with.</span></span></div>
+        <div class="t-ben"><span class="ic" style="background:#2DBE6C"></span><span><b>Total flexibility</b><span>Cancel anytime. Change your plan or get a refund within 14 days — no strings attached.</span></span></div>
+        <div class="t-ben"><span class="ic" style="background:#2BB3E0"></span><span><b>And we're just getting started</b><span>Soon: maps, new event types, and more ways to make your city feel like home.</span></span></div>
+      </div>
+      <div class="t-stars">★★★★★</div>
+      <p class="t-legal">By selecting Subscribe, you will be charged, your subscription will auto-renew for the same price and package length until you cancel via settings, and you agree to our Terms. You also acknowledge the right to withdraw within 14 days for a pro-rated refund, with no refund available after 14 days.</p>
+    </div>
+  </div>
+  <div class="scr-foot">
+    <button class="scr-btn" id="payCta">Subscribe for HUF 10,999.99</button>
+    <p class="t-every" id="payEvery">Every 3 Months. Cancel anytime.</p>
+  </div>
+</section>
+
+<!-- OFFER -->
+<section class="scr sheet scr--offer" data-id="offer">
+  <div class="t-dim" aria-hidden="true"><img src="img/hero.jpg" alt=""><div class="ghost" id="offGhost">Your seat at Friday's dinner is waiting</div></div>
+  <div class="t-sheet">
+    <div class="scr-body">
+      <img class="t-gift" src="img/gift.png" alt="">
+      <h2 class="t-offh">Not sure yet?<br>Get 20% off your first month</h2>
+      <p class="t-offs" id="offSub">Your seat on Friday, September 25 stays held. The first month covers it, plus every dinner after it.</p>
+      <div class="t-oplan"><div><span class="n">1 Month</span><span class="p"><i>20% deal</i><b><s>HUF 4,799.99</s>HUF 3,839.99</b></span></div></div>
+      <p class="t-ofine">Subscriptions are automatically renewed. After your next discounted billing, you will be charged the full subscription price.</p>
+    </div>
+    <div class="scr-foot" style="padding-top:8px">
+      <button class="scr-btn" id="offerCta">Accept the offer</button>
+      <button class="scr-link" id="offDecline">Don't accept this temporary offer</button>
+    </div>
+  </div>
+</section>
+
+<!-- ACCOUNT (moved past the paywall) -->
+<section class="scr" data-id="account">
+  <div class="scr-top">
+    <div class="scr-nav"><button class="scr-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H4M10 18l-6-6 6-6"/></svg></button><span class="scr-ttl" id="accTtl"></span></div>
+    <div id="accHead">
+      <h2 class="scr-h" style="margin-top:14px">Create your account</h2>
+      <p class="scr-sub" id="accSub">Your seat on Friday is booked. Save it to your account.</p>
+    </div>
+    <div id="phHead" class="hidden">
+      <h2 class="scr-h" style="margin-top:14px">What's your phone number?</h2>
+      <p class="scr-sub">So your table can reach you on the night.</p>
+    </div>
+  </div>
+  <div class="scr-body">
+    <div id="accStage">
+      <input class="t-inp" placeholder="Email" value="" autocomplete="off">
+      <button class="scr-btn" id="accCont" style="margin-top:14px">Continue</button>
+      <div class="t-or">or continue with</div>
+      <button class="t-soc" data-auth><svg viewBox="0 0 24 24"><path fill="#111" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6Z"/><path fill="#111" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.4 1.1-3.9 1.1-3 0-5.6-2-6.5-4.8H1.7v3A11.5 11.5 0 0 0 12 24Z"/><path fill="#111" d="M5.5 14.6a7 7 0 0 1 0-4.4v-3H1.7a11.5 11.5 0 0 0 0 10.4l3.8-3Z"/><path fill="#111" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.5 11.5 0 0 0 1.7 7.2l3.8 3C6.4 7.4 9 4.8 12 4.8Z"/></svg>Sign up with Google</button>
+      <button class="t-soc" data-auth><svg viewBox="0 0 24 24" fill="#111"><path d="M17.1 12.6c0-2.3 1.9-3.5 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.5-.2-2.8.8-3.6.8-.7 0-1.9-.8-3.1-.8-1.6 0-3 .9-3.8 2.3-1.7 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 3 2.3 1.2 0 1.6-.7 3.1-.7 1.4 0 1.8.7 3.1.7 1.3 0 2.1-1.1 2.9-2.3.9-1.3 1.3-2.5 1.3-2.6 0 0-2.5-1-2.7-3.7ZM14.8 5.4c.7-.8 1.1-1.9 1-3-1 0-2.2.7-2.9 1.5-.6.7-1.1 1.9-1 3 1.1.1 2.2-.6 2.9-1.5Z"/></svg>Sign up with Apple</button>
+    </div>
+    <div id="phStage" class="hidden">
+      <div class="t-phone"><span class="t-cc">🇭🇺 +36 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span><input class="t-inp" placeholder="Phone number" inputmode="tel"></div>
+    </div>
+  </div>
+  <div class="scr-foot">
+    <p class="t-terms" id="accTerms">By signing up you agree to the <u>Terms of Service</u>, <u>Privacy Policy</u> and <u>Community Guidelines</u>.</p>
+    <button class="scr-btn hidden" id="phConfirm" data-go="notifs">Confirm</button>
+  </div>
+</section>
+
+<!-- NOTIFICATIONS (moved past the paywall) -->
+<section class="scr" data-id="notifs">
+  <div class="scr-top"><div class="scr-nav"><button class="scr-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H4M10 18l-6-6 6-6"/></svg></button></div></div>
+  <div class="scr-body">
+    <svg class="t-bell" viewBox="0 0 24 24" fill="#C9C4BC"><path d="M12 2a6 6 0 0 0-6 6v4.2L4.3 15a1 1 0 0 0 .9 1.5h13.6a1 1 0 0 0 .9-1.5L18 12.2V8a6 6 0 0 0-6-6Zm-2.5 16a2.5 2.5 0 0 0 5 0h-5Z"/></svg>
+    <h2 class="scr-h" style="margin-top:14px">Don't miss your event<br>updates</h2>
+    <p class="scr-sub">Get notified and keep up with event updates, invites, and chats from your new friends. Disable any time in your profile.</p>
+    <div class="t-mock">
+      <div class="pill"></div>
+      <div class="t-note"><span class="av" style="background:radial-gradient(circle at 40% 35%,#F9B3E6,#E27ACB)"></span><span><b>Bridget invited you 💌</b><span>She proposed to meet over a dinner</span></span><em>2m</em></div>
+      <div class="t-note"><span class="av" style="background:linear-gradient(180deg,#FFB27A,#FF8FD0)"></span><span><b>Your group was revealed 👀</b><span>Who are you going to run with?</span></span><em>1h</em></div>
+    </div>
+  </div>
+  <div class="scr-foot">
+    <button class="scr-btn" data-go="goals">Turn on notifications</button>
+    <button class="scr-link" data-go="goals">Maybe later</button>
+  </div>
+</section>
+
+        </div>
+      </div>
+    </div>
+    <div class="chips" id="chips"></div>
+    <p class="chiphint">Jump to any screen, with answers already filled in.</p>
+  </div>
+  <div class="panelcol"><div class="pn" id="panel"></div></div>
+</div>
+</div><!-- /view-proto -->
+
+<script>
+var S = { goals:['friends','newtown'], energy:2, hobbies:['books','food','travel','wine'],
+          traits:['Funny','Warm'], city:'Budapest', lang:'English', budget:'$$', ev:0, plan:'3m' };
+
+var GOAL = {friends:'making new friends', out:'getting out more', talk:'meaningful conversations',
+            special:'meeting someone special', newtown:'being new in town', travel:'exploring while traveling'};
+var ENERGY = [
+  {k:'Introverted', t:'Introvert', d:'I recharge best in smaller groups,<br>one good conversation at a time.', bg:'radial-gradient(circle at 50% 78%,#FFF1B8,#F8CF5A 70%)'},
+  {k:'Ambiverted',  t:'Ambivert',  d:'I enjoy both,<br>it depends on the moment.',              bg:'radial-gradient(circle at 50% 80%,#F9C6EC,#E28FE3 55%,#C8A4F6)'},
+  {k:'Extroverted', t:'Extrovert', d:'I love being around people,<br>it gives me energy.',       bg:'radial-gradient(circle at 50% 82%,#F9C3E6,#F79A74 60%,#F6875E)'}
+];
+var HOB = [['music','🎶','Music'],['travel','✈️','Traveling'],['food','🍳','Cooking & Food'],['tea','☕','Tea & Coffee'],
+  ['books','📚','Reading Books'],['art','🎨','Art & Design'],['movies','🎬','Movies & Series'],['run','🏃','Running or Fitness'],
+  ['yoga','🧘','Yoga & Meditation'],['nature','🌿','Nature & Hiking'],['gaming','🎮','Gaming'],['lang','💬','Languages & Culture'],
+  ['pets','🐾','Pet Lover'],['tech','💡','Tech & Innovation'],['photo','📸','Photography'],['mix','🍸','Mixology'],
+  ['wine','🍷','Wine'],['beer','🍺','Beers']];
+var HOBL={}; HOB.forEach(function(h){ HOBL[h[0]]=h; });
+var EVENTS = [['Friday','September 25'],['Wednesday','September 30'],['Friday','October 2'],['Wednesday','October 7'],['Friday','October 9']];
+var PLAN = { '1m':{p:'HUF 4,799.99', every:'Every Month. Cancel anytime.'},
+             '3m':{p:'HUF 10,999.99', every:'Every 3 Months. Cancel anytime.'},
+             '12m':{p:'HUF 20,999.99', every:'Every 12 Months. Cancel anytime.'} };
+var REVIEWS = [
+  ['The vibe was warm and inclusive. Not like a networking event, but like dinner with friends you didn\'t know yet.','Anna B.'],
+  ['I loved how effortless it felt to connect with strangers. Timeleft made the evening flow naturally.','Max J.']
+];
+var RING = ['#F597E6','#F99142','#FBD956','#3DC77C','#3DC1DA','#A0A1FE'];
+
+var ORDER = ['goals','energy','hobbies','loader','payoff','city','booking','paywall','offer','account','notifs'];
+var LABEL = {goals:'Goals',energy:'Energy',hobbies:'Hobbies',loader:'Loader',payoff:'Payoff',city:'City',
+             booking:'Booking',paywall:'Paywall',offer:'Offer on close',account:'Account',notifs:'Notifications'};
+var LIGHT = {paywall:1, offer:1};
+var scr={}, hist=[], cur='goals', loadTimers=[];
+document.querySelectorAll('.scr').forEach(function(s){ scr[s.dataset.id]=s; });
+
+/* ring dots */
+(function(){ var r=document.getElementById('ring');
+  RING.forEach(function(c,i){ var a=(-90+i*60)*Math.PI/180, d=document.createElement('i');
+    d.style.background=c; d.style.transform='translate('+(Math.cos(a)*44)+'px,'+(Math.sin(a)*44)+'px)';
+    d.style.animationDelay=(i*.25)+'s'; r.appendChild(d); }); })();
+
+/* hobby chips */
+(function(){ var l=document.getElementById('hobList');
+  HOB.forEach(function(h){ var b=document.createElement('button'); b.className='t-chip'; b.dataset.v=h[0];
+    b.innerHTML='<span>'+h[1]+'</span>'+h[2]; b.onclick=function(){
+      var i=S.hobbies.indexOf(h[0]); if(i>-1) S.hobbies.splice(i,1); else if(S.hobbies.length<5) S.hobbies.push(h[0]); syncScreen(); };
+    l.appendChild(b); }); })();
+
+/* events */
+function evCard(i){
+  return '<button class="t-ev" data-ev="'+i+'"><span class="t-evi"><svg viewBox="0 0 24 24" fill="#FA780E"><path d="M6 2h1.6v6.2h1.2V2h1.6v6.2h1.2V2h1.6v7.4a2.8 2.8 0 0 1-2.2 2.7V22H8.6V12.1A2.8 2.8 0 0 1 6 9.4V2Zm10.2 0c1.9 0 2.8 2.3 2.8 6v4.6h-1.8V22h-2.4V2h1.4Z"/></svg></span>'
+   + '<span class="tx"><b>'+EVENTS[i][0]+', '+EVENTS[i][1]+'</b><span>Dinner</span><small>8:00 PM</small></span>'
+   + '<span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>';
+}
+document.getElementById('evTop').innerHTML = evCard(0);
+document.getElementById('evList').innerHTML = [1,2,3,4].map(evCard).join('');
+document.querySelectorAll('.t-ev').forEach(function(b){ b.addEventListener('click',function(){ S.ev=+b.dataset.ev; syncScreen(); go('paywall'); }); });
+
+function go(id,opts){
+  opts=opts||{}; if(id===cur) return;
+  var from=scr[cur], to=scr[id];
+  if(!opts.back) hist.push(cur);
+  if(from){ from.classList.remove('is-active');
+    if(!to.classList.contains('sheet') && !from.classList.contains('sheet')) from.classList.add('is-past'); }
+  Object.keys(scr).forEach(function(k){ if(k!==id&&k!==cur) scr[k].classList.remove('is-active'); });
+  to.classList.remove('is-past'); to.classList.add('is-active');
+  cur=id; after(); if(id==='loader') runLoader();
+}
+function back(){
+  if(!hist.length) return;
+  var prev=hist.pop();
+  scr[cur].classList.remove('is-active');
+  scr[prev].classList.remove('is-past'); scr[prev].classList.add('is-active');
+  cur=prev; after();
+}
+function jump(id){
+  var i=ORDER.indexOf(id);
+  Object.keys(scr).forEach(function(k){ scr[k].classList.add('nofx'); scr[k].classList.remove('is-active','is-past'); });
+  hist=ORDER.slice(0,i<0?0:i);
+  scr[id].classList.add('is-active'); cur=id;
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){
+    Object.keys(scr).forEach(function(k){ scr[k].classList.remove('nofx'); }); }); });
+  if(id==='account') resetAccount();
+  syncScreen(); after();
+  if(id==='loader') runLoader();
+}
+function after(){ clearLoad(); paintChips(); paintPanel();
+  document.getElementById('sbar').classList.toggle('light', !!LIGHT[cur]); }
+function paintChips(){
+  var c=document.getElementById('chips');
+  if(!c.childElementCount){
+    ORDER.forEach(function(id){
+      var b=document.createElement('button'); b.className='chip'+(id==='offer'?' offer':''); b.textContent=LABEL[id];
+      b.dataset.id=id; b.onclick=function(){ jump(id); }; c.appendChild(b);
+    });
+  }
+  c.querySelectorAll('.chip').forEach(function(b){ b.classList.toggle('on', b.dataset.id===cur); });
+}
+
+function hobbyPhrase(){
+  var names=S.hobbies.slice(0,2).map(function(k){ return HOBL[k][2].toLowerCase(); });
+  return names.join(' and ');
+}
+function syncScreen(){
+  var E=ENERGY[S.energy], ev=EVENTS[S.ev];
+  /* goals */
+  document.querySelectorAll('#goalList .t-row').forEach(function(b){ b.classList.toggle('on', S.goals.indexOf(b.dataset.v)>-1); });
+  document.getElementById('goalsBtn').disabled = !S.goals.length;
+  /* energy */
+  var f=document.getElementById('face'); f.style.background=E.bg; f.className='t-face e'+S.energy;
+  document.getElementById('eLab').textContent=E.k;
+  document.getElementById('eDesc').innerHTML=E.d;
+  document.getElementById('eRange').value=S.energy;
+  document.getElementById('knob').style.left=[8,50,92][S.energy]+'%';
+  /* hobbies */
+  document.querySelectorAll('#hobList .t-chip').forEach(function(b){ b.classList.toggle('on', S.hobbies.indexOf(b.dataset.v)>-1); });
+  document.getElementById('hobCount').textContent = S.hobbies.length ? (S.hobbies.length+' of 5 selected') : 'Select up to 5';
+  document.getElementById('hobBtn').disabled = !S.hobbies.length;
+  /* loader — their three lines, now naming the answers */
+  var st=document.querySelectorAll('#lSteps .t-step .t');
+  st[0].textContent='Matching you on '+(S.goals.length?S.goals.map(function(g){return GOAL[g];}).join(' & '):'your goals');
+  st[1].textContent='Finding tables for '+E.k.toLowerCase()+' people';
+  st[2].textContent=S.hobbies.length?('Looking for people into '+hobbyPhrase()):'Analyzing your interests';
+  /* payoff */
+  var h=S.hobbies[0];
+  document.getElementById('payoffLine').textContent = h==='books' ? "You'll probably end up talking about books you can't put down 📚"
+    : (h ? ("You'll probably end up talking about "+HOBL[h][2].toLowerCase()+' '+HOBL[h][1]) : "You'll meet people who get you.");
+  /* booking */
+  document.getElementById('traitE').textContent=E.k;
+  /* paywall */
+  document.getElementById('payH').textContent = 'Your seat at '+ev[0]+"'s dinner is waiting";
+  document.getElementById('offGhost').textContent = 'Your seat at '+ev[0]+"'s dinner is waiting";
+  document.getElementById('seatDate').textContent = ev[0]+', '+ev[1];
+  document.getElementById('seatMeta').textContent = 'Dinner · 8:00 PM · '+S.city;
+  document.getElementById('seatChips').innerHTML = [S.lang,S.budget,E.k].map(function(x){return '<i>'+x+'</i>';}).join('');
+  document.querySelectorAll('#planList .t-plan').forEach(function(b){ b.classList.toggle('on', b.dataset.v===S.plan); });
+  document.getElementById('payCta').textContent = 'Subscribe for '+PLAN[S.plan].p;
+  document.getElementById('payEvery').textContent = PLAN[S.plan].every;
+  /* offer + account */
+  document.getElementById('offSub').textContent = 'Your seat on '+ev[0]+', '+ev[1]+' stays held. The first month covers it, plus every dinner after it.';
+  document.getElementById('accSub').textContent = 'Your seat on '+ev[0]+' is booked. Save it to your account.';
+}
+
+function clearLoad(){ loadTimers.forEach(clearTimeout); loadTimers=[]; }
+function runLoader(){
+  var steps=document.querySelectorAll('#lSteps .t-step'), pct=document.getElementById('pct');
+  steps.forEach(function(s){ s.classList.remove('on'); });
+  function rev(i){ document.getElementById('rText').textContent=REVIEWS[i][0];
+    document.getElementById('rWho').innerHTML=REVIEWS[i][1]+' <span>· Trustpilot Review</span>'; }
+  rev(0); pct.textContent='0%';
+  for(var p=1;p<=20;p++){ (function(p){ loadTimers.push(setTimeout(function(){ pct.textContent=(p*5)+'%'; },p*230)); })(p); }
+  steps.forEach(function(s,i){ loadTimers.push(setTimeout(function(){ s.classList.add('on'); },900+i*1300)); });
+  loadTimers.push(setTimeout(function(){ rev(1); },2600));
+  loadTimers.push(setTimeout(function(){ if(cur==='loader') go('payoff'); },5600));
+}
+
+function resetAccount(){
+  ['accStage','accHead','accTerms'].forEach(function(i){ document.getElementById(i).classList.remove('hidden'); });
+  ['phStage','phHead','phConfirm'].forEach(function(i){ document.getElementById(i).classList.add('hidden'); });
+  document.getElementById('accTtl').textContent='';
+}
+function toPhone(){
+  ['accStage','accHead','accTerms'].forEach(function(i){ document.getElementById(i).classList.add('hidden'); });
+  ['phStage','phHead','phConfirm'].forEach(function(i){ document.getElementById(i).classList.remove('hidden'); });
+  document.getElementById('accTtl').textContent='Phone number';
+}
+
+document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(){ go(b.dataset.go); }); });
+document.querySelectorAll('[data-back]').forEach(function(b){ b.addEventListener('click',back); });
+document.querySelectorAll('#goalList .t-row').forEach(function(b){ b.addEventListener('click',function(){
+  var v=b.dataset.v, i=S.goals.indexOf(v); if(i>-1) S.goals.splice(i,1); else { if(S.goals.length>=2) S.goals.shift(); S.goals.push(v); } syncScreen(); }); });
+document.getElementById('eRange').addEventListener('input',function(e){ S.energy=+e.target.value; syncScreen(); });
+document.querySelectorAll('#planList .t-plan').forEach(function(b){ b.addEventListener('click',function(){ S.plan=b.dataset.v; syncScreen(); }); });
+document.getElementById('payClose').addEventListener('click',function(){ go('offer'); });
+document.getElementById('payCta').addEventListener('click',function(){ resetAccount(); go('account'); });
+document.getElementById('offerCta').addEventListener('click',function(){ resetAccount(); go('account'); });
+document.getElementById('offDecline').addEventListener('click',function(){ go('booking'); });
+document.getElementById('accCont').addEventListener('click',toPhone);
+document.querySelectorAll('[data-auth]').forEach(function(b){ b.addEventListener('click',toPhone); });
+</script>
+<script>
+/* ---- the short panel: hypothesis + potential outcome, nothing else ---- */
+var PANEL = {
+goals:{ctx:true,t:'What are you looking for?',
+ kept:'Your screen, unchanged. Same six options, same emoji, "Select up to 2", your header and progress bar. The answer now shows up again on the loader.'},
+
+energy:{ctx:true,t:'What\'s your social energy like?',
+ kept:'Your slider, rebuilt as a working control. Drag it or tap a dot and the face, the label and the description all change. The answer is used three more times: on the loader, on the top-pick card and on the paywall.'},
+
+hobbies:{ctx:true,t:'What do you enjoy doing in your free time?',
+ kept:'All eighteen of your hobby chips in your order, with the same limit of five. The first one you pick shows up on the payoff screen, the way "books you can\'t put down" does today.'},
+
+loader:{n:5,t:'Say their answers back while the loader runs',
+ hyp:'Try naming their goals, their energy and their hobbies in the three loader lines, and showing two of your Trustpilot reviews underneath. <b>Right now every user sees the same "Analyzing your goals" text, and your reviews only appear at step 2, before anyone has answered anything.</b>',
+ kept:'The six-dot ring, the percentage, "We\'re curating your experience" and the three-line card are all yours. The reviews are quoted word for word from your own screen.',
+ out:'CR +10–15%'},
+
+payoff:{ctx:true,t:'We know you a little better now',
+ kept:'Your badge, your card and your hobby line. The one visible change is that "Hey Bogdan" loses the name, because the name came from the account screen and that now comes after the paywall (idea 3).'},
+
+city:{n:4,t:'Ask for location and notifications once they\'ve paid',
+ hyp:'Try suggesting the city without the system location prompt, and asking for notifications after purchase. <b>Right now two system dialogs sit between your personalized result and your events, and the location one only exists to pick a city.</b>',
+ kept:'Your map, "Continue in Budapest", "Find another city" and the "We\'ll never store your exact location" line. Only the system dialog on top of it is gone.',
+ out:'CR +10–15%'},
+
+booking:{ctx:true,t:'Book your first event',
+ kept:'Your top-pick card with the gradient tag and the "99% of people with traits…" line, and the dinner list below it. The energy trait is live: change the slider and it updates here. Your language and budget screen stays in the flow, and its answers carry onto the paywall.'},
+
+paywall:{n:1,t:'Put the dinner they just picked on the paywall',
+ hyp:'Try a headline that names the seat, plus your own booking card showing the date, time, city, language and budget they chose, <b>because one screen earlier they picked a real Friday dinner and the paywall says "Get unlimited access to weekly meetups" instead.</b>',
+ hyp2:'Try giving the price and the weekly price their own lines, <b>because on your 3-month and 12-month cards they print on top of each other and read "HUF 10,9…916.67/week"</b>. Same prices, same Save 24% and Save 64%, just readable.',
+ n2:2, out2:'CR +5–8%',
+ kept:'Your photo, your serif headline, your subhead, the promo-code box, all five benefits, the stars, the legal text and the "Every 3 Months. Cancel anytime." line. Pick another event on Booking and the headline and card rewrite. The X opens your 20%-off sheet.',
+ out:'CR +15–20%'},
+
+offer:{n:1,t:'Name the same dinner in your 20%-off sheet',
+ hyp:'Try one line in your existing offer saying their seat stays held and the first month covers it, <b>because today the sheet says "Not sure yet?" and asks them to decide about a discount instead of about the dinner they chose.</b> Same SKU, same HUF 3,839.99, no timer.',
+ kept:'Your gift icon, your headline, the orange-to-pink card border, the "20% deal" tag, the renewal note and both buttons in your wording.',
+ out:'CR +15–20%'},
+
+account:{n:3,t:'Ask for the account after the paywall',
+ hyp:'Try asking for the account and the phone number here, <b>because today they are steps 6 and 9, before the quiz, the loader or a single dinner date</b>. After purchase, the account is how they keep the seat they just paid for.',
+ kept:'Your email field, your black Continue button, both sign-up buttons and your terms line. Tap Continue and your phone-number screen follows, with the same code picker. It is now the second half of this step instead of a separate screen at step 9.',
+ out:'CR +8% · ARPU +17%'},
+
+notifs:{n:4,t:'Ask for location and notifications once they\'ve paid',
+ hyp:'Try this screen after purchase, <b>because now there is a real booking behind "Your group was revealed", and the system prompt no longer interrupts the path to the paywall.</b>',
+ kept:'Your bell, your copy, the phone mock-up with both notification cards, "Turn on notifications" and "Maybe later". Unchanged, just later in the flow.',
+ out:'CR +10–15%'}
+};
+
+function outBlock(lab,val){
+  return '<div class="pn-out"><div class="lab">'+lab+'</div><div class="v">'+val+'</div></div>';
+}
+function paintPanel(){
+  var d=PANEL[cur]; if(!d) return;
+  var h='';
+  if(d.ctx){
+    h += '<div class="pn-n ctx">Context · no change proposed</div><h3 class="pn-t">'+d.t+'</h3>'
+       + '<div class="pn-kept">'+d.kept+'</div>';
+  } else {
+    h += '<div class="pn-n">Idea '+d.n+' of 5</div><h3 class="pn-t">'+d.t+'</h3>'
+       + '<p class="pn-hyp">'+d.hyp+'</p>'
+       + outBlock('Potential outcome · based on Adapty data', d.out);
+    if(d.hyp2){
+      h += '<div class="pn-sep"></div>'
+         + '<div class="pn-n">Idea '+d.n2+' of 5</div>'
+         + '<p class="pn-hyp" style="margin-top:12px">'+d.hyp2+'</p>'
+         + outBlock('Potential outcome · based on Adapty data', d.out2);
+    }
+    h += '<div class="pn-kept"><b>Your design, unchanged.</b> '+d.kept+'</div>';
+  }
+  h += '<div class="pn-foot">Ranges are Adapty\'s expected effect from tests across subscription apps, not measured lift for Timeleft. '
+     + 'Prices, ratings and reviews come from your own published material.</div>';
+  document.getElementById('panel').innerHTML = h;
+}
+
+function showView(v){
+  document.querySelectorAll('.view').forEach(function(x){ x.classList.remove('on'); });
+  document.getElementById('view-'+v).classList.add('on');
+  document.querySelectorAll('.nav-links button[data-view]').forEach(function(b){ b.classList.toggle('on', b.dataset.view===v); });
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('[data-view]').forEach(function(b){ b.addEventListener('click',function(){ showView(b.dataset.view); }); });
+document.querySelectorAll('.idea[data-jump]').forEach(function(b){
+  b.addEventListener('click',function(){ showView('proto'); jump(b.dataset.jump); });
+});
+
+scr.goals.classList.add('is-active');
+syncScreen(); paintChips(); paintPanel();
+</script>
+</body>
+</html>
